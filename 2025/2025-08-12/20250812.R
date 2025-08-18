@@ -13,7 +13,7 @@ library(ggtext)
 data_week <- "2025-08-12"
 
 # --- Get data -----------------------------------------------------------------
-attr_data <- read.delim(fs::path("2025", "data", data_week, "attribution_studies.csv", header = T, sep = ","))
+attr_data <- read.delim(fs::path("data", data_week, "attribution_studies.csv"), header = T, sep = ",")
 
 
 # --- Data preprocesing --------------------------------------------------------
@@ -61,21 +61,22 @@ ggplot() +
                                             angle = c(90, rep(0, 4), 90, rep(0, 5), 90)),
                       seed = 2, grid_size = 8, max_grid_size = 1280, shape = "circle", family = "spectral") +
   scale_colour_manual(values = event_colours) +
-  scale_size_area(max_size = 25) +
+  scale_size_area(max_size = 35) +
   labs(
-    title = paste("Extreme Weather Attribution Studies \n", year_first, "to", year_last),
+    title = paste("Extreme Weather Attribution Studies", year_first, "to", year_last),
     caption = paste(
       "**Data:** Carbon Brief <br> ",
       "**Graphic:** ", social_caption)) +
   theme_void() +
-  theme(plot.margin = margin(30, 30, 30, 30),
-        plot.title = element_text(hjust = 0.5, size = 18, margin = margin(0, 0, 15, 0)),
+  theme(plot.margin = margin(30, 30, 10, 30),
+        plot.title = element_text(hjust = 0.5, size = 22, margin = margin(0, 0, 10, 0)),
         plot.caption = element_textbox_simple(
-          size = 10,
-          margin = margin(10, 0, 0, 0),
-          lineheight = 1.75),
-        text = element_text(family = "spectral"))
+          size = 12,
+          margin = margin(5, 0, 0, 0),
+          lineheight = 0.75),
+        text = element_text(family = "spectral"),
+        aspect.ratio = 0.65)
 
-ggsave(filename = fs::path("2025", data_week, paste0(gsub("-", "", data_week), "_plot.png")),
-       plot = last_plot(), device = "png", width = 7, height = 5, units = "in", dpi = 300)
+ggsave(filename = fs::path("2025", data_week, paste0(gsub("-", "", data_week), "_plot.jpg")),
+       plot = last_plot(), device = "jpg", width = 1200, height = 900, units = "px", dpi = 300)
 
