@@ -8,9 +8,15 @@ library(sf)
 library(ggplot2)
 library(ggwordcloud)
 
+library(showtext)
 library(ggtext)
 
+# --- Other setup --------------------------------------------------------------
+
 data_week <- "2025-08-12"
+
+# author details for figure caption
+source("commons/Author_details.R")
 
 # --- Get data -----------------------------------------------------------------
 attr_data <- read.delim(fs::path("data", data_week, "attribution_studies.csv"), header = T, sep = ",")
@@ -45,7 +51,7 @@ plot_data <- left_join(plot_data, data.frame(event_colours, event_type = names(e
 event_years <- na.omit(as.numeric(unlist(strsplit(attr_data$event_year, "-|, "))))
 
 year_first <- min(event_years)
-year_last <- max(event_years)
+year_last <- "2024"
 
 # --- Plot ---------------------------------------------------------------------
 
@@ -59,9 +65,9 @@ ggplot() +
   coord_sf(expand = F) +
   geom_text_wordcloud(data = plot_data, aes(label = event_type, size = n_occurences, colour = event_type,
                                             angle = c(90, rep(0, 4), 90, rep(0, 5), 90)),
-                      seed = 2, grid_size = 8, max_grid_size = 1280, shape = "circle", family = "spectral") +
+                      seed = 3, grid_size = 4, max_grid_size = 128, shape = "circle", family = "spectral") +
   scale_colour_manual(values = event_colours) +
-  scale_size_area(max_size = 35) +
+  scale_size_area(max_size = 32) +
   labs(
     title = paste("Extreme Weather Attribution Studies", year_first, "to", year_last),
     caption = paste(
@@ -71,9 +77,9 @@ ggplot() +
   theme(plot.margin = margin(30, 30, 10, 30),
         plot.title = element_text(hjust = 0.5, size = 22, margin = margin(0, 0, 10, 0)),
         plot.caption = element_textbox_simple(
-          size = 12,
+          size = 14,
           margin = margin(5, 0, 0, 0),
-          lineheight = 0.75),
+          lineheight = 0.5),
         text = element_text(family = "spectral"),
         aspect.ratio = 0.65)
 
