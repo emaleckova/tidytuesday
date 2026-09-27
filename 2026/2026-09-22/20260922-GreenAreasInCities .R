@@ -99,7 +99,7 @@ ggplot(
   scale_x_continuous(
     breaks = c(1990, 2000, 2010, 2020),
     labels = function(x) paste0("'", sprintf("%02d", x %% 100)),
-    expand = expansion(add = c(2, 0))
+    expand = expansion(add = c(2, 2))
     ) +
   scale_y_continuous(labels = scales::label_number(suffix = "%")) +
   theme_void() +
